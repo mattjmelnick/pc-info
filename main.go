@@ -32,6 +32,8 @@ func main() {
 
 	gpu := getGPU()
 	fmt.Printf("GPU %s", gpu)
+
+	exitCMD()
 }
 
 func printRAMSize() {
@@ -41,14 +43,18 @@ func printRAMSize() {
 	}
 
 	sticks := strings.Split(string(ram), "\n")
+
 	for _, stick := range sticks[1:] {
 		stick = strings.TrimSpace(stick)
+
 		if stick != "" {
 			memSize, err := strconv.ParseFloat(stick, 64)
 			if err != nil {
 				log.Fatal(err)
 			}
+
 			memSizeGB := memSize / GB_SIZE
+
 			fmt.Printf("%.2f\n", memSizeGB)
 		}
 	}
@@ -59,6 +65,7 @@ func getCPU() string {
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	return string(cpu)
 }
 
@@ -67,6 +74,7 @@ func getDiskDrive() string {
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	return string(drive)
 }
 
@@ -75,12 +83,14 @@ func printDDCapacity() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	lines := strings.Split(string(dd), "\n")
 
-	fmt.Println("Drive\tFreeSpace (GB)\tSize (GB)")
+	fmt.Println("Drive\tFree Space (GB)\tSize (GB)")
 
 	for _, line := range lines[1:] {
 		fields := strings.Fields(line)
+
 		if len(fields) == 3 {
 			caption := fields[0]
 
@@ -88,6 +98,7 @@ func printDDCapacity() {
 			if err != nil {
 				log.Fatal(err)
 			}
+
 			sizeBytes, err := strconv.ParseFloat(fields[2], 64)
 			if err != nil {
 				log.Fatal(err)
@@ -106,6 +117,7 @@ func getSerialNumber() string {
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	return string(sn)
 }
 
@@ -114,6 +126,7 @@ func getOSName() string {
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	return string(os)
 }
 
@@ -122,5 +135,11 @@ func getGPU() string {
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	return string(gpu)
+}
+
+func exitCMD() {
+	fmt.Print("Press Enter to exit")
+	fmt.Scanln()
 }
